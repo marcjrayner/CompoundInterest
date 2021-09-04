@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @calculation.name %>
+</p>
+
+<p>
+  <strong>Principal:</strong>
+  <%= @calculation.principal %>
+</p>
+
+<p>
+  <strong>Interest rate:</strong>
+  <%= @calculation.interest_rate %>
+</p>
+
+<p>
+  <strong>Years:</strong>
+  <%= @calculation.years %>
+</p>
+
+<%= link_to 'Edit', edit_calculation_path(@calculation) %> |
+<%= link_to 'Back', calculations_path %>

@@ -6,11 +6,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="#">New Caluculation</a>
+        <li class="nav-item">          
+          <%= link_to 'New Calculation', new_calculation_path, class:"nav-link" %>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Caluculations</a>
+          <%= link_to 'My Calculations', calculations_path, class:"nav-link" %>
         </li>
         <li class="nav-item">
           <%= link_to 'About', home_about_path, class:"nav-link" %>
@@ -19,3 +19,5 @@
     </div>
   </div>
 </nav> 
+
+calculations
