@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Currency</th>
       <th>Principal</th>
       <th>Interest rate</th>
       <th>Years</th>
@@ -17,6 +18,7 @@
     <% @calculations.each do |calculation| %>
       <tr>
         <td><%= calculation.name %></td>
+        <td><%= calculation.currency %></td>
         <td><%= calculation.principal %></td>
         <td><%= calculation.interest_rate %></td>
         <td><%= calculation.years %></td>

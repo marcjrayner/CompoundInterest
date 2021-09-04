@@ -11,24 +11,29 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="field mb-3">
+    <% # form.label :name %>
+    <%= form.text_field :name, class:"form-control", placeholder:"Name" %>
   </div>
 
-  <div class="field">
-    <%= form.label :principal %>
-    <%= form.text_field :principal %>
+  <div class="field mb-3">
+    <% # form.label :principal %>
+    <%= form.text_field :currency, class:"form-control", placeholder:"Currency" %>
   </div>
 
-  <div class="field">
-    <%= form.label :interest_rate %>
-    <%= form.text_field :interest_rate %>
+  <div class="field mb-3">
+    <% # form.label :principal %>
+    <%= form.text_field :principal, class:"form-control", placeholder:"Principal (Initial value)" %>
   </div>
 
-  <div class="field">
-    <%= form.label :years %>
-    <%= form.number_field :years %>
+  <div class="field mb-3">
+    <% # form.label :interest_rate %>
+    <%= form.text_field :interest_rate, class:"form-control", placeholder:"Interest Rate" %>
+  </div>
+
+  <div class="field mb-3">
+    <% # form.label :years %>
+    <%= form.number_field :years, class:"form-control", placeholder:"Years" %>
   </div>
 
   <div class="actions">
