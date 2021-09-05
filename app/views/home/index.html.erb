@@ -1,2 +1,8 @@
 <%= javascript_pack_tag 'hello_react' %>
 
+<%= content_tag :div,
+    id: "user_data",
+    data: current_user.to_json,
+    is_signed_in: user_signed_in? do %>
+  <% end %>
+

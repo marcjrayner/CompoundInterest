@@ -1,5 +1,6 @@
 class CalculationsController < ApplicationController
   before_action :set_calculation, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:create]
   skip_before_action :verify_authenticity_token
 
   # GET /calculations or /calculations.json

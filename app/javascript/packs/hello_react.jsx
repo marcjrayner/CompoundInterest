@@ -5,10 +5,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Calculator from '../components/Calculator'
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
+  const node = document.getElementById('user_data')
+  const userData = JSON.parse(node.getAttribute('data'))
+  const userSignedIn = node.getAttribute('is_signed_in')
+  
   ReactDOM.render(
-    <Calculator />,
+    <Router>
+      <Calculator userSignedIn={userSignedIn}/>
+    </Router>,
     document.body.appendChild(document.createElement('div')),
   )
 })

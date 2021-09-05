@@ -1,14 +1,29 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useInput } from './hooks/InputHook'
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 
-const Calculator = () => {
+const Calculator = ({userSignedIn}) => {
   const [result, setResult] = useState(0)
   const [currency, setCurrency] = useState("GBP")
+  const [currencySymbol, setCurrencySymbol] = useState("£")
 
-  const { value:principal, bind:bindPrincipal, reset:resetPrincipal } = useInput(0);
-  const { value:interestRate, bind:bindInterestRate, reset:resetInterestRate } = useInput(0);
-  const { value:years, bind:bindYears, reset:resetYears } = useInput(0);  
+  const { value:principal, bind:bindPrincipal, reset:resetPrincipal } = useInput("");
+  const { value:interestRate, bind:bindInterestRate, reset:resetInterestRate } = useInput("");
+  const { value:years, bind:bindYears, reset:resetYears } = useInput("");  
+  const { value:name, bind:bindName, reset:resetName } = useInput("");  
+
+  useEffect(() => {
+    if (currency === "GBP"){
+      setCurrencySymbol("£")
+    } else if (currency === "USD") {
+      setCurrencySymbol("$")
+    } else if (currency === "EUR") {
+      setCurrencySymbol("€")
+    }
+
+    return () => {}
+  }, [currency])
 
   const getCalculationResult = () => {
     const data = {
@@ -27,42 +42,66 @@ const Calculator = () => {
   }
 
   return (
-    <div className="bg-light p-5 rounded-lg m-3">
+    <div className="bg-light p-5 rounded-lg m-3 container text-center align-items-center">
       <h2>Compound interest Calculator</h2>
-      <form>
-        <div className="col-4" onChange={(e) => setCurrency(e.target.value)}>
-          <input type="radio" className="btn-check" name="options" id="option1" autoComplete="off" value="GBP" />
-          <label className="btn btn-secondary" htmlFor="option1">£</label>
+      <div className="row justify-content-center">
+        <form style={{width: "25rem"}}>
+          <div onChange={(e) => setCurrency(e.target.value)}>
+            <input type="radio" className="btn-check" name="options" id="option1" autoComplete="off" value="GBP" />
+            <label className="btn btn-secondary" htmlFor="option1">£</label>
 
-          <input type="radio" className="btn-check" name="options" id="option2" autoComplete="off" value="USD"/>
-          <label className="btn btn-secondary" htmlFor="option2">$</label>
+            <input type="radio" className="btn-check" name="options" id="option2" autoComplete="off" value="USD"/>
+            <label className="btn btn-secondary" htmlFor="option2">$</label>
 
-          <input type="radio" className="btn-check" name="options" id="option3" autoComplete="off" value="EUR"/>
-          <label className="btn btn-secondary" htmlFor="option3">€</label>
-        </div>
-        <br/>
+            <input type="radio" className="btn-check" name="options" id="option3" autoComplete="off" value="EUR"/>
+            <label className="btn btn-secondary" htmlFor="option3">€</label>
+          </div>
+          <br/>
 
-        <div className="col-2">
-          <label className="">Principal (starting value):</label>
-          <input className="form-control" type="number" placeholder="Principal" { ...bindPrincipal } />
-        </div>
-        <br/>
-        <div className="col-2">
-          <label className="">Interest Rate (%):</label>
-          <input className="form-control" type="number" placeholder="Interest rate" { ...bindInterestRate } />
-        </div>
-        <br/>
-        <div className="col-2">
-          <label className="">Number of Years:</label>
-          <input className="form-control"type="number" placeholder="Years" { ...bindYears } />
-        </div>
-        <br/>
-        
+          <div>
+            <label>Principal (starting value):</label>
+            <div className="input-group">
+              <span className="input-group-text">{currencySymbol}</span>
+              <input className="form-control" type="number" placeholder="Principal" { ...bindPrincipal } />
+            </div>
+          </div>
+          <br/>
+          <div>
+            <label>Interest Rate (%):</label>
+            <input className="form-control" type="number" placeholder="Interest rate" { ...bindInterestRate } />
+          </div>
+          <br/>
+          <div>
+            <label>Number of Years:</label>
+            <input className="form-control" type="number" placeholder="Years" { ...bindYears } />
+          </div>
+          <br/>
+          <button className="btn btn-primary" onClick={getCalculationResult}>Calculate</button>
+          <br/>
+
+          {result > 0 && 
+          <>
+            <p>{`After ${years} years, with an interest rate of ${interestRate}%, your ${currencySymbol}${principal}`} will grow to:</p>
+            <h2>{currencySymbol}{result}</h2>
+          </>
+          }
+
+          {userSignedIn === "false" && 
+            <p> Sign up to save calculations!</p>   
+          }
+
+          {userSignedIn === "true" && 
+          <>
+            {/* <div> */}
+              <label>Enter a name to save:</label>
+              <input className="form-control" type="text" placeholder="eg. bank name" { ...bindName } />
+            {/* </div> */}
+            <button className="btn btn-secondary" onClick={getCalculationResult} disabled={name.length > 0 ? false : true}>Save Calculation</button>
+          </>
+          }
+          
       </form>
-      <button className="btn btn-primary" onClick={getCalculationResult}>Calculate</button>
-      { result > 0 && 
-        <><h2>Result:</h2><p>{result}</p></>
-      }
+      </div>
     </div>
   )
 }
