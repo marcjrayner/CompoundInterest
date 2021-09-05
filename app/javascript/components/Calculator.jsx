@@ -13,17 +13,17 @@ const Calculator = ({userSignedIn}) => {
   const { value:years, bind:bindYears, reset:resetYears } = useInput("");  
   const { value:name, bind:bindName, reset:resetName } = useInput("");  
 
-  useEffect(() => {
-    if (currency === "GBP"){
-      setCurrencySymbol("£")
-    } else if (currency === "USD") {
-      setCurrencySymbol("$")
-    } else if (currency === "EUR") {
-      setCurrencySymbol("€")
-    }
+  // useEffect(() => {
+  //   if (currency === "GBP"){
+  //     setCurrencySymbol("£")
+  //   } else if (currency === "USD") {
+  //     setCurrencySymbol("$")
+  //   } else if (currency === "EUR") {
+  //     setCurrencySymbol("€")
+  //   }
 
-    return () => {}
-  }, [currency])
+  //   return () => {}
+  // }, [currency])
 
   const getCalculationResult = () => {
     const data = {
@@ -35,6 +35,23 @@ const Calculator = ({userSignedIn}) => {
     axios.post('calculate_result', data)
     .then(response => {
       setResult(response.data.result);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  const saveCalculation = () => {
+    const data = {
+      currency: currency,
+      principal: principal,
+      interest_rate: interestRate,
+      years: years,
+      name: name
+      }
+    axios.post('calculations', data)
+    .then(response => {
+      console.log(response);
     })
     .catch(error => {
       console.log(error);
@@ -92,11 +109,9 @@ const Calculator = ({userSignedIn}) => {
 
           {userSignedIn === "true" && 
           <>
-            {/* <div> */}
-              <label>Enter a name to save:</label>
-              <input className="form-control" type="text" placeholder="eg. bank name" { ...bindName } />
-            {/* </div> */}
-            <button className="btn btn-secondary" onClick={getCalculationResult} disabled={name.length > 0 ? false : true}>Save Calculation</button>
+            <label>Enter a name to save:</label>
+            <input className="form-control" type="text" placeholder="eg. bank name" { ...bindName } />
+            <button className="btn btn-secondary" onClick={saveCalculation} disabled={name.length > 0 ? false : true}>Save Calculation</button>
           </>
           }
           

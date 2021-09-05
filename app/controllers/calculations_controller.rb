@@ -5,7 +5,7 @@ class CalculationsController < ApplicationController
 
   # GET /calculations or /calculations.json
   def index
-    @calculations = Calculation.all
+    @calculations = Calculation.where(user_id: current_user.id)
   end
 
   # GET /calculations/1 or /calculations/1.json
@@ -19,6 +19,8 @@ class CalculationsController < ApplicationController
 
   def calculate_result 
     @calculation = Calculation.new
+    valid = true
+    message = ""
 
     principal = params[:principal].to_f
     interest_rate = params[:interest_rate].to_f / 100
@@ -27,8 +29,6 @@ class CalculationsController < ApplicationController
     #once per year for now
     compounds_per_year = 1
 
-    valid = true
-    message = ""
 
     result = principal * ((1 + interest_rate) ** (compounds_per_year * years))
 
@@ -43,7 +43,7 @@ class CalculationsController < ApplicationController
 
     render json: data.to_json
 
-    return result
+    # return result
 
   end
 
@@ -54,7 +54,7 @@ class CalculationsController < ApplicationController
 
   # POST /calculations or /calculations.json
   def create
-    @calculation = Calculation.new(calculation_params)
+    @calculation = current_user.calculations.build(friend_params)
 
     respond_to do |format|
       if @calculation.save
