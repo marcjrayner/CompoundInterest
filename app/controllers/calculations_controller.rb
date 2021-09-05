@@ -19,13 +19,20 @@ class CalculationsController < ApplicationController
   def calculate_result 
     @calculation = Calculation.new
 
-    principal = params[:principal]
-    interest_rate = params[:interest_rate]
-    years = params[:years]
+    principal = params[:principal].to_f
+    interest_rate = params[:interest_rate].to_f / 100
+    years = params[:years].to_i
+
+    #once per year for now
+    compounds_per_year = 1
+
     valid = true
     message = ""
 
-    result = principal + interest_rate + years
+    result = principal * ((1 + interest_rate) ** (compounds_per_year * years))
+
+    Rails.logger.debug "result" 
+    Rails.logger.debug result 
 
     data = {
         valid: valid,
@@ -34,6 +41,8 @@ class CalculationsController < ApplicationController
     }
 
     render json: data.to_json
+
+    return result
 
   end
 
