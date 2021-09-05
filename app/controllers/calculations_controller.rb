@@ -5,12 +5,13 @@ class CalculationsController < ApplicationController
 
   # GET /calculations or /calculations.json
   def index
-    @calculations = Calculation.where(user_id: current_user.id)
+    @calculations = Calculation.all
+    # @calculations = Calculation.where(user_id: current_user.id)
   end
 
   # GET /calculations/1 or /calculations/1.json
-  # def show
-  # end
+  def show
+  end
 
   # GET /calculations/new
   def new
@@ -29,8 +30,9 @@ class CalculationsController < ApplicationController
     #once per year for now
     compounds_per_year = 1
 
-
     result = principal * ((1 + interest_rate) ** (compounds_per_year * years))
+    
+    rounded_result = result.round(2)
 
     Rails.logger.debug "result" 
     Rails.logger.debug result 
@@ -38,7 +40,7 @@ class CalculationsController < ApplicationController
     data = {
         valid: valid,
         message: message,
-        result: result
+        result: rounded_result
     }
 
     render json: data.to_json
@@ -54,7 +56,7 @@ class CalculationsController < ApplicationController
 
   # POST /calculations or /calculations.json
   def create
-    @calculation = current_user.calculations.build(friend_params)
+    @calculation = Calculation.new(calculation_params)
 
     respond_to do |format|
       if @calculation.save
@@ -98,6 +100,6 @@ class CalculationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def calculation_params
-      params.require(:calculation).permit(:name, :currency, :principal, :interest_rate, :years)
+      params.require(:calculation).permit(:name, :currency, :principal, :interest_rate, :years, :user_id)
     end
 end

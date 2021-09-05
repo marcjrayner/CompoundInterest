@@ -3,7 +3,7 @@ import { useInput } from './hooks/InputHook'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 
-const Calculator = ({userSignedIn}) => {
+const Calculator = ({userSignedIn, userData}) => {
   const [result, setResult] = useState(0)
   const [currency, setCurrency] = useState("GBP")
   const [currencySymbol, setCurrencySymbol] = useState("£")
@@ -13,17 +13,17 @@ const Calculator = ({userSignedIn}) => {
   const { value:years, bind:bindYears, reset:resetYears } = useInput("");  
   const { value:name, bind:bindName, reset:resetName } = useInput("");  
 
-  // useEffect(() => {
-  //   if (currency === "GBP"){
-  //     setCurrencySymbol("£")
-  //   } else if (currency === "USD") {
-  //     setCurrencySymbol("$")
-  //   } else if (currency === "EUR") {
-  //     setCurrencySymbol("€")
-  //   }
+  useEffect(() => {
+    if (currency === "GBP"){
+      setCurrencySymbol("£")
+    } else if (currency === "USD") {
+      setCurrencySymbol("$")
+    } else if (currency === "EUR") {
+      setCurrencySymbol("€")
+    }
 
-  //   return () => {}
-  // }, [currency])
+    return () => {}
+  }, [currency])
 
   const getCalculationResult = () => {
     const data = {
@@ -47,9 +47,10 @@ const Calculator = ({userSignedIn}) => {
       principal: principal,
       interest_rate: interestRate,
       years: years,
-      name: name
+      name: name,
+      user_id: userData["id"]
       }
-    axios.post('calculations', data)
+    axios.post('/calculations', data)
     .then(response => {
       console.log(response);
     })
@@ -62,7 +63,7 @@ const Calculator = ({userSignedIn}) => {
     <div className="bg-light p-5 rounded-lg m-3 container text-center align-items-center">
       <h2>Compound interest Calculator</h2>
       <div className="row justify-content-center">
-        <form style={{width: "25rem"}}>
+        <div style={{width: "25rem"}}>
           <div onChange={(e) => setCurrency(e.target.value)}>
             <input type="radio" className="btn-check" name="options" id="option1" autoComplete="off" value="GBP" />
             <label className="btn btn-secondary" htmlFor="option1">£</label>
@@ -115,7 +116,7 @@ const Calculator = ({userSignedIn}) => {
           </>
           }
           
-      </form>
+      </div>
       </div>
     </div>
   )

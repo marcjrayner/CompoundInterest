@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :calculations
-  # get 'home/index'
+  get 'home/index'
   root 'home#index'
   get 'home/about'
   post 'calculate_result', to: 'calculations#calculate_result'

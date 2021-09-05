@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const userSignedIn = node.getAttribute('is_signed_in')
   
   ReactDOM.render(
-      <Calculator userSignedIn={userSignedIn}/>,
+      <Calculator userSignedIn={userSignedIn} userData={userData}/>,
     document.body.appendChild(document.createElement('div')),
   )
 })
