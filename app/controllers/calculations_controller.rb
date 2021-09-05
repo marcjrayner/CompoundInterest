@@ -1,5 +1,6 @@
 class CalculationsController < ApplicationController
   before_action :set_calculation, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token
 
   # GET /calculations or /calculations.json
   def index
@@ -7,13 +8,35 @@ class CalculationsController < ApplicationController
   end
 
   # GET /calculations/1 or /calculations/1.json
-  def show
-  end
+  # def show
+  # end
 
   # GET /calculations/new
   def new
     @calculation = Calculation.new
   end
+
+  def calculate_result 
+    @calculation = Calculation.new
+
+    principal = params[:principal]
+    interest_rate = params[:interest_rate]
+    years = params[:years]
+    valid = true
+    message = ""
+
+    result = principal + interest_rate + years
+
+    data = {
+        valid: valid,
+        message: message,
+        result: result
+    }
+
+    render json: data.to_json
+
+  end
+
 
   # GET /calculations/1/edit
   def edit
@@ -55,6 +78,7 @@ class CalculationsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
