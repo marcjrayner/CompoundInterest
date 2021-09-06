@@ -8,6 +8,7 @@
       <th>Principal</th>
       <th>Interest rate</th>
       <th>Years</th>
+      <th>Result</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
         <td><%= calculation.principal %></td>
         <td><%= calculation.interest_rate %></td>
         <td><%= calculation.years %></td>
+        <td><%= calculation.result %></td>
         <td><%= link_to 'Show', calculation %></td>
         <td><%= link_to 'Edit', edit_calculation_path(calculation) %></td>
         <td><%= link_to 'Destroy', calculation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -30,4 +32,4 @@
 
 <br>
 
-<%= link_to 'New Calculation', new_calculation_path, class:"btn btn-primary" %>
+<%= link_to 'Calculator', root_path, class:"btn btn-primary", method: :get %>

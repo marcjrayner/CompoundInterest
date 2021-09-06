@@ -32,7 +32,7 @@ const Calculator = ({userSignedIn, userData}) => {
       interest_rate: interestRate,
       years: years
       }
-    axios.post('calculate_result', data)
+    axios.post('get_compound_interest', data)
     .then(response => {
       setResult(response.data.result);
     })
@@ -50,9 +50,10 @@ const Calculator = ({userSignedIn, userData}) => {
       name: name,
       user_id: userData["id"]
       }
-    axios.post('/calculations', data)
+    axios.post('/calculations.json', data)
     .then(response => {
-      console.log(response);
+      // console.log(response);
+      window.location.href = `/calculations/${response.data.id}`;
     })
     .catch(error => {
       console.log(error);

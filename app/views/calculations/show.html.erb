@@ -1,13 +1,24 @@
 <div class="bg-light p-5 rounded-lg m-3">
-   <h1 class="display-4">
-     <%= @calculation.name %>
-   </h1>
-   <p class="lead">
-     <strong>Principal:</strong><%= @calculation.principal %> |
-     <strong>Interest rate:</strong><%= @calculation.interest_rate %> |
-     <strong>Years:</strong><%= @calculation.years %> 
-   </p>
-   <hr class="my-4">
-   <%= link_to 'Edit', edit_calculation_path(@calculation), class:"btn btn-secondary" %> 
-   <%= link_to 'Back', calculations_path, class:"btn btn-dark" %>
+
+  <% currency_symbol = @calculation.currency == "GBP" ? "£" : @calculation.currency == "USD" ? "$" : "€" %>
+
+  <h1 class="display-4">
+    <%= @calculation.name %>
+  </h1>
+  <p class="lead">
+    <strong>Principal:</strong><%= @calculation.principal %> 
+  </p>
+  <p class="lead">
+    <strong>Interest rate:</strong><%= @calculation.interest_rate %>  
+  </p>
+  <p class="lead">
+    <strong>Years:</strong><%= @calculation.years %> 
+  </p>
+  <hr class="my-4">
+  <p class="lead">
+    <p><%="After #{@calculation.years} years, with an interest rate of #{@calculation.interest_rate}%, your #{currency_symbol}#{@calculation.principal} will grow to:"%></p>
+    <h2><%="#{currency_symbol}#{@calculation.result}"%></h2> 
+  </p>
+  <%= link_to 'My Calculations', calculations_path, class:"btn btn-dark" %>
+  <%= link_to 'Delete', @calculation, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
  </div>

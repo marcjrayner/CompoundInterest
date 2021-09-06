@@ -18,7 +18,7 @@ class CalculationsController < ApplicationController
     @calculation = Calculation.new
   end
 
-  def calculate_result 
+  def get_compound_interest
     @calculation = Calculation.new
     valid = true
     message = ""
@@ -30,12 +30,14 @@ class CalculationsController < ApplicationController
     #once per year for now
     compounds_per_year = 1
 
-    result = principal * ((1 + interest_rate) ** (compounds_per_year * years))
+    result = CalculationsHelper.calculate_result(principal, interest_rate, years, compounds_per_year)
     
     rounded_result = result.round(2)
 
-    Rails.logger.debug "result" 
-    Rails.logger.debug result 
+    # Rails.logger.debug "result" 
+    # Rails.logger.debug result     
+    # Rails.logger.debug "rounded_result" 
+    # Rails.logger.debug rounded_result 
 
     data = {
         valid: valid,
@@ -44,8 +46,6 @@ class CalculationsController < ApplicationController
     }
 
     render json: data.to_json
-
-    # return result
 
   end
 
@@ -57,6 +57,21 @@ class CalculationsController < ApplicationController
   # POST /calculations or /calculations.json
   def create
     @calculation = Calculation.new(calculation_params)
+
+    principal = calculation_params[:principal].to_f
+    interest_rate = calculation_params[:interest_rate].to_f / 100
+    years = calculation_params[:years].to_i
+    compounds_per_year = 1
+
+    result = CalculationsHelper.calculate_result(principal, interest_rate, years, compounds_per_year)
+    rounded_result = result.round(2)
+
+    Rails.logger.debug "result" 
+    Rails.logger.debug result 
+    Rails.logger.debug "@calculation" 
+    Rails.logger.debug pp(@calculation)
+
+    @calculation.result = rounded_result
 
     respond_to do |format|
       if @calculation.save
@@ -71,6 +86,21 @@ class CalculationsController < ApplicationController
 
   # PATCH/PUT /calculations/1 or /calculations/1.json
   def update
+
+    principal = calculation_params[:principal].to_f
+    interest_rate = calculation_params[:interest_rate].to_f / 100
+    years = calculation_params[:years].to_i
+    compounds_per_year = 1
+
+    new_result = CalculationsHelper.calculate_result(principal, interest_rate, years, compounds_per_year)
+    rounded_result = new_result.round(2)
+
+    Rails.logger.debug "result" 
+    Rails.logger.debug result 
+    Rails.logger.debug "@calculation" 
+    Rails.logger.debug pp(@calculation)
+
+    @calculation.result = rounded_result
     respond_to do |format|
       if @calculation.update(calculation_params)
         format.html { redirect_to @calculation, notice: "Calculation was successfully updated." }
