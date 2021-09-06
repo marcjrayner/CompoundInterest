@@ -72,6 +72,15 @@ const Calculator = ({userSignedIn, userData}) => {
 
   const checkAllValues = principal && interestRate && years
 
+  
+  const checkForInvalid = (e) => {
+    
+    const invalidChars = ["-", "+", "e", "%"];
+    if (invalidChars.includes(e.key)) {
+      e.preventDefault();
+    }
+  }
+
   return (
     <div className="bg-light p-5 rounded-lg m-3 container text-center align-items-center">
       <h2>Compound interest Calculator</h2>
@@ -93,18 +102,18 @@ const Calculator = ({userSignedIn, userData}) => {
             <label>Principal (starting value):</label>
             <div className="input-group">
               <span className="input-group-text">{currencySymbol}</span>
-              <input className="form-control" type="number" placeholder="Principal" { ...bindPrincipal } />
+              <input className="form-control" type="number" placeholder="Principal" { ...bindPrincipal } onKeyDown={checkForInvalid}/>
             </div>
           </div>
           <br/>
           <div>
             <label>Interest Rate (%):</label>
-            <input className="form-control" type="number" placeholder="Interest rate" { ...bindInterestRate } />
+            <input className="form-control" type="number" placeholder="Interest rate" { ...bindInterestRate } onKeyDown={checkForInvalid}/>
           </div>
           <br/>
           <div>
             <label>Number of Years:</label>
-            <input className="form-control" type="number" placeholder="Years" { ...bindYears } />
+            <input className="form-control" type="number" placeholder="Years" { ...bindYears } onKeyDown={checkForInvalid}/>
           </div>
           <br/>
           <button className="btn btn-primary" onClick={getCalculationResult}>Calculate</button>
@@ -124,7 +133,7 @@ const Calculator = ({userSignedIn, userData}) => {
           </>
           }
 
-          {userSignedIn === "true" && 
+          {userSignedIn === "true" && checkAllValues && 
           <>
             <br/>
             <label>Enter a name to save:</label>
