@@ -7,6 +7,7 @@ const Calculator = ({userSignedIn, userData}) => {
   const [result, setResult] = useState(0)
   const [currency, setCurrency] = useState("GBP")
   const [currencySymbol, setCurrencySymbol] = useState("£")
+  const [calculateClicked, setCalculateClicked] = useState(false)
 
   const { value:principal, bind:bindPrincipal, reset:resetPrincipal } = useInput("");
   const { value:interestRate, bind:bindInterestRate, reset:resetInterestRate } = useInput("");
@@ -25,6 +26,14 @@ const Calculator = ({userSignedIn, userData}) => {
     return () => {}
   }, [currency])
 
+  useEffect(() => {
+    if (calculateClicked) {
+      setResult(0)
+      setCalculateClicked(false)
+    }
+    return () => {}
+  }, [principal, interestRate, years])
+
   const getCalculationResult = () => {
     const data = {
       currency: currency,
@@ -35,6 +44,7 @@ const Calculator = ({userSignedIn, userData}) => {
     axios.post('get_compound_interest', data)
     .then(response => {
       setResult(response.data.result);
+      setCalculateClicked(true)
     })
     .catch(error => {
       console.log(error);
@@ -59,6 +69,8 @@ const Calculator = ({userSignedIn, userData}) => {
       console.log(error);
     });
   }
+
+  const checkAllValues = principal && interestRate && years
 
   return (
     <div className="bg-light p-5 rounded-lg m-3 container text-center align-items-center">
@@ -97,7 +109,7 @@ const Calculator = ({userSignedIn, userData}) => {
           <br/>
           <button className="btn btn-primary" onClick={getCalculationResult}>Calculate</button>
 
-          {result > 0 && 
+          {result > 0 && checkAllValues &&
           <>
             <br/>
             <p>{`After ${years} years, with an interest rate of ${interestRate}%, your ${currencySymbol}${principal}`} will grow to:</p>
