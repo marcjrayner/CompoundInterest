@@ -10,9 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const node = document.getElementById('user_data')
   const userData = JSON.parse(node.getAttribute('data'))
   const userSignedIn = node.getAttribute('is_signed_in')
+
+  // center the div 
+  let div = document.createElement('div');
+  div.classList.add('container');
+  div.classList.add('align-items-center');
   
   ReactDOM.render(
       <Calculator userSignedIn={userSignedIn} userData={userData}/>,
-    document.body.appendChild(document.createElement('div')),
+    document.body.appendChild(div),
   )
 })

@@ -16,7 +16,7 @@
   </p>
   <hr class="my-4">
   <p class="lead">
-    <p><%="After #{@calculation.years} years, with an interest rate of #{@calculation.interest_rate}%, your #{currency_symbol}#{@calculation.principal} will grow to:"%></p>
+    <p><%="After #{@calculation.years} years, with an interest rate of #{@calculation.interest_rate}% compounding annually, your #{currency_symbol}#{@calculation.principal} will grow to:"%></p>
     <h2><%="#{currency_symbol}#{@calculation.result}"%></h2> 
   </p>
   <%= link_to 'My Calculations', calculations_path, class:"btn btn-dark" %>
