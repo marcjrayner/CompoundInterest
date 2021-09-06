@@ -96,21 +96,25 @@ const Calculator = ({userSignedIn, userData}) => {
           </div>
           <br/>
           <button className="btn btn-primary" onClick={getCalculationResult}>Calculate</button>
-          <br/>
 
           {result > 0 && 
           <>
+            <br/>
             <p>{`After ${years} years, with an interest rate of ${interestRate}%, your ${currencySymbol}${principal}`} will grow to:</p>
             <h2>{currencySymbol}{result}</h2>
           </>
           }
 
           {userSignedIn === "false" && 
+          <>
+            <br/>
             <p> Sign up to save calculations!</p>   
+          </>
           }
 
           {userSignedIn === "true" && 
           <>
+            <br/>
             <label>Enter a name to save:</label>
             <input className="form-control" type="text" placeholder="eg. bank name" { ...bindName } />
             <button className="btn btn-secondary" onClick={saveCalculation} disabled={name.length > 0 ? false : true}>Save Calculation</button>

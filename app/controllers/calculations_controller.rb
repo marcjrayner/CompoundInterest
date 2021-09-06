@@ -1,12 +1,12 @@
 class CalculationsController < ApplicationController
   before_action :set_calculation, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, except: [:get_compound_interest]
   skip_before_action :verify_authenticity_token
 
   # GET /calculations or /calculations.json
   def index
-    @calculations = Calculation.all
-    # @calculations = Calculation.where(user_id: current_user.id)
+    # @calculations = Calculation.all
+    @calculations = Calculation.where(user_id: current_user.id)
   end
 
   # GET /calculations/1 or /calculations/1.json
@@ -49,7 +49,6 @@ class CalculationsController < ApplicationController
 
   end
 
-
   # GET /calculations/1/edit
   def edit
   end
@@ -66,10 +65,10 @@ class CalculationsController < ApplicationController
     result = CalculationsHelper.calculate_result(principal, interest_rate, years, compounds_per_year)
     rounded_result = result.round(2)
 
-    Rails.logger.debug "result" 
-    Rails.logger.debug result 
-    Rails.logger.debug "@calculation" 
-    Rails.logger.debug pp(@calculation)
+    # Rails.logger.debug "result" 
+    # Rails.logger.debug result 
+    # Rails.logger.debug "@calculation" 
+    # Rails.logger.debug pp(@calculation)
 
     @calculation.result = rounded_result
 
@@ -95,10 +94,10 @@ class CalculationsController < ApplicationController
     new_result = CalculationsHelper.calculate_result(principal, interest_rate, years, compounds_per_year)
     rounded_result = new_result.round(2)
 
-    Rails.logger.debug "result" 
-    Rails.logger.debug result 
-    Rails.logger.debug "@calculation" 
-    Rails.logger.debug pp(@calculation)
+    # Rails.logger.debug "result - update" 
+    # Rails.logger.debug new_result 
+    # Rails.logger.debug "@calculation - update" 
+    # Rails.logger.debug pp(@calculation)
 
     @calculation.result = rounded_result
     respond_to do |format|
