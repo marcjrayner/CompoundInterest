@@ -1,24 +1,39 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Deployed on web:
+https://compound-interest-project.herokuapp.com/
 
-Things you may want to cover:
+Basic app info
 
-* Ruby version
+* Ruby version 3.0.1 Rails version 6.1.4.1
+* Uses a React frontend "Calculator" single component
+* Built on a Macbook running Big Sur
+* Uses SQLite for development env, pg for production
 
-* System dependencies
+* To run the app locally, pull the repo and run 
+- bundle install
+- yarn
+- rails -s 
 
-* Configuration
+Expamples of some skills demonstrated within this app:
 
-* Database creation
+Ruby/Rails
+- MVC Scaffold setup
+- CRUD
+- Gems (devise)
+- Database setup, sqlite for dev, pg for production
+- Basic user signup / login management 
+- Associations (user has many calculations)
+- JSON api calls
+- Migrations to modify models / db
+- Webpack / webpacker
+- Use of helper methods
 
-* Database initialization
+React 
+- Functional component / ES6
+- Hooks - useState, useEffect
+- Custom hooks for input values
+- Conditional rendering based on form values and user status
+- Axios for API calls and updating page based on result
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
